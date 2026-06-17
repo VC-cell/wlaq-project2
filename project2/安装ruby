@@ -1,0 +1,51 @@
+安装ruby：
+1、将Node.js和Yarn存储库添加到我们的系统中
+sudo apt install curl
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+sudo apt-get update
+sudo apt-get install git-core zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev software-properties-common libffi-dev nodejs yarn
+
+2、安装ruby，三种方法
+1）使用安装rbenv是一个简单的两步过程。首先安装rbenv，然后ruby-build：
+cd
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+exec $SHELL
+
+git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
+exec $SHELL
+
+rbenv install 2.4.10
+rbenv global 2.4.10
+ruby -v
+
+2）使用rvm
+sudo apt-get install libgdbm-dev libncurses5-dev automake libtool bison libffi-dev
+gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+curl -sSL https://get.rvm.io | bash -s stable
+source ~/.rvm/scripts/rvm
+rvm install 2.4.10
+rvm use 2.4.10 --default
+ruby -v
+
+3）从源代码安装（不常用）
+cd
+wget http://ftp.ruby-lang.org/pub/ruby/2.4/ruby-2.4.10.tar.gz
+tar -xzvf ruby-2.4.10.tar.gz
+cd ruby-2.4.10/
+./configure
+make
+sudo make install
+ruby -v
+
+3、安装捆绑器
+gem install bundler
+
+4、安装捆绑程序后，rbenv用户需要运行。
+rbenv rehash
+

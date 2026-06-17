@@ -1,0 +1,32 @@
+安装rails
+1、gem install rails -v 5.0.7.2
+
+2、如果您使用的是rbenv，则需要运行以下命令以使Rails可执行文件可用：
+rbenv rehash
+
+3、rails -v
+# Rails 5.0.7.2
+
+4、创建您的第一个Rails应用程序：
+#### If you want to use SQLite (not recommended)
+rails new myapp
+
+#### If you want to use MySQL
+rails new myapp -d mysql
+
+#### If you want to use Postgres
+# Note that this will expect a postgres user with the same username
+# as your app, you may need to edit config/database.yml to match the
+# user you created earlier
+rails new myapp -d postgresql
+
+# Move into the application directory
+cd myapp
+
+# If you setup MySQL or Postgres with a username/password, modify the
+# config/database.yml file to contain the username/password that you specified
+
+# Create the database
+rake db:create
+
+rails server

